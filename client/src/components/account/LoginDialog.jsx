@@ -8,6 +8,9 @@ import {GoogleLogin} from "@react-oauth/google"
 
 import jwt_decode from "jwt-decode" 
 
+import { useContext } from 'react'
+import { AccountContext } from '../../context/AccountProvider'
+
 const Component=styled(Box)`
 display:flex;
 justify-content: space-around;
@@ -52,19 +55,22 @@ const dialogstyle= {
 }
 
 const LoginDialog = () => {
+  const {setAccount} = useContext(AccountContext)
 
   const onLoginSuccess= (res)=>{
     const decoded = jwt_decode(res.credential)
     console.log('google oauth data',decoded)
+    setAccount(decoded)
   }
   const onError=(res)=>{
-    console.log(res)
+    console.log('Login Failed',res)
   }
 
   return (
     <Dialog 
     open={true}
     PaperProps={{ sx:dialogstyle}}
+    hideBackdrop={true}
     >
       <Component>
         <Container>
@@ -77,7 +83,7 @@ const LoginDialog = () => {
         </Container>
         <Box style={{position:'relative'}}>
           <QRCode src={qrCodeImage} alt="barcode"/>
-          <Box style={{position: 'absolute', top:'50%',transform:'translateX(45%)'}}>
+          <Box style={{position: 'absolute', top:'50%',transform:'translateX(22%)'}}>
             <GoogleLogin
             onSuccess={onLoginSuccess}
             onError={onError}/>
