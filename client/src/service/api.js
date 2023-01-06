@@ -14,7 +14,7 @@ export const addUser =async(data)=>{
 export const getUsers = async ()=>{
     try{
         let response = await axios.get(`${url}/users`);
-        console.log(response)
+        // console.log(response)
         return response.data
     }catch(error){
         console.log("Error while calling getUsers api",error.message)
@@ -53,5 +53,13 @@ export const getMessages = async(id)=>{
     }catch(error){
         console.log('Error while calling getMessage api',error.message)
 
+    }
+}
+
+export const uploadFile = async(data)=>{
+    try{
+        return await axios.post(`${url}/file/upload`,data);
+    }catch(error){
+        console.log('Error while calling uploadFile api',error.message)
     }
 }
